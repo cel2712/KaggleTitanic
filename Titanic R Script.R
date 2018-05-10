@@ -47,5 +47,13 @@ train$Child[train$Age<18] <- 1
 #view the survivors based on child and sex
 aggregate(Survived ~ Child + Sex, data=train, FUN=sum)
 
+#view proportion of each 
+aggregate(Survived ~ Child + Sex, data=train, FUN=function(x) {sum(x)/length(x)})
 
+#Since we did not really gain any insight, we will check with the fare that they paid.
+train$Fare2 <- '30+'
+train$Fare2[train$Fare < 30 & train$Fare >= 20] <- '20-30'
+train$Fare2[train$Fare < 20 & train$Fare >= 10] <- '10-20'
+train$Fare2[train$Fare < 10]<- '10'
+aggregate(Survived ~ Fare2 + Pclass + Sex, data=train, FUN=function(x) {sum(x)/length(x)})
 
